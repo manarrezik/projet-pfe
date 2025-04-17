@@ -1,0 +1,32 @@
+// LoginPage.jsx
+import axios from "axios";
+import { useState } from "react";
+
+function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [motpasse, setMotpasse] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        motpasse,
+      });
+
+      // Save token to localStorage
+      localStorage.setItem("token", response.data.token);
+
+      alert("✅ Logged in successfully!");
+    } catch (err) {
+      alert("❌ Login failed");
+    }
+  };
+
+  return (
+    <div>
+      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+      <input placeholder="Mot de passe" type="password" onChange={(e) => setMotpasse(e.target.value)} />
+      <button onClick={handleLogin}>Login</button>
+    </div>
+  );
+}
